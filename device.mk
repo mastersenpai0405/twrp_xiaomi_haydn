@@ -50,10 +50,10 @@ PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-service
 
 PRODUCT_PACKAGES += \
-    bootctrl.lahaina
+    bootctrl
 
 PRODUCT_PACKAGES += \
-    bootctrl.lahaina \
+    bootctrl \
     otapreopt_script \
     cppreopts.sh \
     update_engine \
