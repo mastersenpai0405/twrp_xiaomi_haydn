@@ -80,7 +80,7 @@ PRODUCT_PACKAGES += \
 # Apex libraries
 PRODUCT_COPY_FILES += \
     $(OUT_DIR)/target/product/$(PRODUCT_DEVICE)/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
-h
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health@2.1-impl-recovery \
