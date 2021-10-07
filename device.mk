@@ -50,9 +50,6 @@ PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-impl-qti.recovery \
     android.hardware.boot@1.1-impl-qti
 
-PRODUCT_PACKAGES += \
-    bootctrl
-
 PRODUCT_PACKAGES_DEBUG += \
    update_engine_client
 
@@ -79,7 +76,7 @@ PRODUCT_PACKAGES += \
 
 # Apex libraries
 PRODUCT_COPY_FILES += \
-    $(OUT_DIR)/target/product/$(PRODUCT_DEVICE)/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
+    $(OUT_DIR)/target/product/haydn/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
 
 # Health
 PRODUCT_PACKAGES += \
