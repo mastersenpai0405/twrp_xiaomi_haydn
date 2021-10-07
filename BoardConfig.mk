@@ -58,10 +58,10 @@ BOARD_KERNEL_CMDLINE += ehci-hcd.park=3
 BOARD_KERNEL_CMDLINE += androidboot.bootdevice=7824900.sdhci
 BOARD_KERNEL_CMDLINE += lpm_levels.sleep_disabled=1
 BOARD_KERNEL_CMDLINE += androidboot.bootdevice=7824900.sdhci3
+BOARD_KERNEL_CMDLINE += androidboot.force_normal_boot=1
 
 BOARD_KERNEL_BASE := 0x014b96fc
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 
@@ -70,14 +70,8 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOTIMG_HEADER_VERSION)
 
 BOARD_KERNEL_IMAGE_NAME := kernel
 
-# Target Kernel
-TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_COMPILE_WITH_MSM_KERNEL := true
-TARGET_KERNEL_SOURCE := kernel/xiaomi/haydn
-TARGET_KERNEL_CONFIG := haydn_defconfig
-
 # Assert
-TARGET_OTA_ASSERT_DEVICE := haydn,haydn_in,haydnpro
+TARGET_OTA_ASSERT_DEVICE := haydn,haydn_in,haydnpro,missi
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -97,22 +91,21 @@ TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_NO_RECOVERY := true
 BOARD_USES_RECOVERY_AS_BOOT := true
 TARGET_USES_HARDWARE_QCOM_BOOTCTRL := true
+TARGET_RECOVERY_DEVICE_MODULES += \
+    libandroidicu \
+    libcap \
+    libion \
+    libxml2
 
 # Workaround for error copying vendor files to recovery ramdisk
 TARGET_COPY_OUT_VENDOR := vendor
-TARGET_COPY_OUT_PRODUCT := product
-TARGET_COPY_OUT_ODM := odm
-TARGET_COPY_OUT_SYSTEM_EXT := system_ext
 
 # File system type
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
-BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
+BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_SYSTEM_EXTIMAGE_FILE_SYSTEM_TYPE := ext4
-BOARD_ODMIMAGE_FILE_SYSTEM_TYPE := ext4
 
 # qcom hardware
 BOARD_USE_QCOM_HARDWARE := true
@@ -124,23 +117,29 @@ BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA4096
 BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
 BOARD_AVB_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --set_hashtree_disabled_flag
-BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 2
-BOARD_AVB_RECOVERY_ROLLBACK_INDEX := 2
-BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 2
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 1
+BOARD_AVB_RECOVERY_ROLLBACK_INDEX := 1
+BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 3
 
-# Crypto
+# Hack
 PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 
 # System as root
-BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
+BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
 BOARD_ROOT_EXTRA_FOLDERS := bluetooth dsp firmware persist
 BOARD_SUPPRESS_SECURE_ERASE := true
 
+# Qcom Encryption
+BOARD_USES_QCOM_FBE_DECRYPTION := true
+
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
-BOARD_USE_METADATA_ENCRYPTION := true
 BOARD_USES_QCOM_DECRYPTION := true
+
+# System Property
+TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
+TARGET_VENDOR_PROP := $(DEVICE_PATH)/vendor.prop
 
 # TWRP Configuration
 TW_THEME := portrait_hdpi
@@ -151,15 +150,27 @@ TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
 TW_USE_TOOLBOX := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
 TW_MAX_BRIGHTNESS := 2047
 TW_DEFAULT_BRIGHTNESS := 1200
-TW_Y_OFFSET := 115
-TW_H_OFFSET := -155
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 TARGET_USES_MKE2FS := true
 TW_EXCLUDE_TWRPAPP := true
 TW_NO_SCREEN_BLANK := true
+TW_EXCLUDE_APEX := true
+TW_INCLUDE_RESETPROP := true
+TW_INCLUDE_CRYPTO := true
+
+
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libcap.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so
+    
+TW_OVERRIDE_SYSTEM_PROPS := \
+    "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
+
 
 PLATFORM_VERSION := 16.1.0

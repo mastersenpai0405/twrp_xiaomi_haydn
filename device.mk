@@ -26,6 +26,7 @@ PRODUCT_TARGET_VNDK_VERSION := 30
 PRODUCT_SHIPPING_API_LEVEL := 30
 
 # A/B
+ENABLE_VIRTUAL_AB := true
 AB_OTA_PARTITIONS += \
     boot \
     dtbo \
@@ -47,10 +48,13 @@ AB_OTA_POSTINSTALL_CONFIG += \
 # Boot control HAL
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-impl-qti.recovery \
-    android.hardware.boot@1.1-service
+    android.hardware.boot@1.1-impl-qti
 
 PRODUCT_PACKAGES += \
     bootctrl
+
+PRODUCT_PACKAGES_DEBUG += \
+   update_engine_client
 
 PRODUCT_PACKAGES += \
     bootctrl \
@@ -65,8 +69,19 @@ PRODUCT_PACKAGES += \
     qcom_decrypt \
     qcom_decrypt_fbe
     
+# Soong namespaces
+PRODUCT_SOONG_NAMESPACES += \
+    $(LOCAL_PATH)
+    
 # Fastbootd
 PRODUCT_PACKAGES += \
-    android.hardware.fastboot@1.0-impl-mock \
-    android.hardware.fastboot@1.0-impl-mock.recovery \
-    fastbootd
+    android.hardware.fastboot@1.0-impl-mock
+
+# Apex libraries
+PRODUCT_COPY_FILES += \
+    $(OUT_DIR)/target/product/$(PRODUCT_DEVICE)/obj/SHARED_LIBRARIES/libandroidicu_intermediates/libandroidicu.so:$(TARGET_COPY_OUT_RECOVERY)/root/system/lib64/libandroidicu.so
+h
+# Health
+PRODUCT_PACKAGES += \
+    android.hardware.health@2.1-impl-recovery \
+    android.hardware.health@2.1-impl
