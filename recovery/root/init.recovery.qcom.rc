@@ -34,11 +34,21 @@ on early-init
     insmod /vendor/lib/modules/snd_event_dlkm.ko
     insmod /vendor/lib/modules/apr_dlkm.ko
     insmod /vendor/lib/modules/adsp_loader_dlkm.ko
+    
+service touchfeature /vendor/bin/hw/vendor.xiaomi.hw.touchfeature@1.0-service
+    user root
+    group root system
+    disabled
+    seclabel u:r:recovery:s0
+    
+on boot    
+    start boot-hal-1-1
+    start health-hal-2-1
+    start touchfeature
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     
-on boot
-   start boot-hal-1-1
-   start health-hal-2-1
+
+   

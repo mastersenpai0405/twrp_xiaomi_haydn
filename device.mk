@@ -53,14 +53,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES_DEBUG += \
    update_engine_client
 
-PRODUCT_STATIC_BOOT_CONTROL_HAL := \
-    bootctrl.lahaina \
-    libgptutils \
-    libz \
-    libcutils
-
 PRODUCT_PACKAGES += \
-    bootctrl \
+    bootctrl.lahaina \
     otapreopt_script \
     cppreopts.sh \
     update_engine \
