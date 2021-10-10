@@ -27,28 +27,21 @@
 
 import /init.recovery.qcom_decrypt.rc
 export LD_LIBRARY_PATH /system/lib64:/vendor/lib64/hw:/vendor/lib64
-
-on early-init
-    insmod /vendor/lib/modules/q6_pdr_dlkm.ko
-    insmod /vendor/lib/modules/q6_notifier_dlkm.ko
-    insmod /vendor/lib/modules/snd_event_dlkm.ko
-    insmod /vendor/lib/modules/apr_dlkm.ko
-    insmod /vendor/lib/modules/adsp_loader_dlkm.ko
-    
+ 
 service touchfeature /vendor/bin/hw/vendor.xiaomi.hw.touchfeature@1.0-service
     user root
     group root system
     disabled
+    oneshot
     seclabel u:r:recovery:s0
     
 on boot    
-    start boot-hal-1-1
     start health-hal-2-1
     start touchfeature
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
-    
+    start boot-hal-1-1
 
    

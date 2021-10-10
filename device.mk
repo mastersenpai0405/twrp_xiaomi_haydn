@@ -56,7 +56,6 @@ PRODUCT_PACKAGES_DEBUG += \
 PRODUCT_PACKAGES += \
     bootctrl.lahaina \
     otapreopt_script \
-    cppreopts.sh \
     update_engine \
     update_verifier \
     update_engine_sideload
