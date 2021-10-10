@@ -1,0 +1,3 @@
+# Soft dependencies extracted from modules themselves.
+softdep machine_dlkm pre: bt_fm_slim
+softdep leds_qti_tri_led pre: pwm-qti-lpg
