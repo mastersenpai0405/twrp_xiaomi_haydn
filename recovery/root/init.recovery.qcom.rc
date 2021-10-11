@@ -26,15 +26,9 @@
 #
 
 import /init.recovery.qcom_decrypt.rc
+
 export LD_LIBRARY_PATH /system/lib64:/vendor/lib64/hw:/vendor/lib64
  
-service touchfeature /vendor/bin/hw/vendor.xiaomi.hw.touchfeature@1.0-service
-    user root
-    group root system
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-    
 on boot    
     start health-hal-2-1
     start touchfeature
