@@ -48,7 +48,8 @@ AB_OTA_POSTINSTALL_CONFIG += \
 # Boot control HAL
 PRODUCT_PACKAGES += \
     android.hardware.boot@1.1-impl-qti.recovery \
-    android.hardware.boot@1.1-impl-qti
+    android.hardware.boot@1.1-impl-qti \
+    android.hardware.boot@1.1-service
 
 PRODUCT_PACKAGES_DEBUG += \
    update_engine_client
@@ -79,5 +80,5 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1-impl-recovery \
+    android.hardware.health@2.1-service \
     android.hardware.health@2.1-impl
