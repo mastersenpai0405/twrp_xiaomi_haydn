@@ -33,19 +33,12 @@ on early-fs
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    start boot-hal-1-1
 
 on init
     exec u:r:vendor_init-qti-keymaster-sh:s0 -- /vendor/bin/init.qti.keymaster.sh
     export LD_LIBRARY_PATH /system/lib64:/vendor/lib64/hw:/vendor/lib64
-    
-service prepdecrypt /system/bin/prepdecrypt.sh
-    user root
-    group root
-    disabled
-    oneshot
-    seclabel u:r:recovery:s0
-    
+        
 on boot
-    start boot-hal-1-1
     start health-hal-2-1
    
