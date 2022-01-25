@@ -173,4 +173,7 @@ TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.product;ro.build.fingerprint=ro.system.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
 
 
-PLATFORM_VERSION := 16.1.0
+PLATFORM_SECURITY_PATCH := 2099-12-31
+PLATFORM_VERSION := 20.1.0
+VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+
